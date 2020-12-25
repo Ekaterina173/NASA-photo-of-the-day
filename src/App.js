@@ -4,32 +4,43 @@ import ImageSection from "./components/ImageSection";
 import DatePicker from "./components/DatePicker";
 import "./App.css";
 
+function getCurrentDate() {
+  const today = new Date();
+  const dd = String(today.getDate()).padStart(2, "0");
+  const mm = String(today.getMonth() + 1).padStart(2, "0");
+  const yyyy = today.getFullYear();
+
+  return yyyy + "-" + mm + "-" + dd;
+}
+
 function App() {
-  const [nasaImg, setNasaImg] = React.useState("");
-  const [imgTitle, setImgTitle] = React.useState("");
-  const [imgDate, setImgDate] = React.useState("");
-  const [query, setQuery] = React.useState("2020-12-24");
+  const [data, setData] = React.useState({});
+  const [query, setQuery] = React.useState(() => getCurrentDate());
 
   React.useEffect(() => {
-    fetch("https://api.nasa.gov/planetary/apod?api_key=DEMO_KEY&date=" + query)
-      .then((res) => res.json())
-      .then((result) => {
-        console.log("result = ", result);
-        setNasaImg(result.url);
-        setImgTitle(result.title);
-        setImgDate(result.date);
-      });
+    const fetchData = async () => {
+      const res = await fetch(
+        `https://api.nasa.gov/planetary/apod?api_key=DEMO_KEY&date=${query}`
+      );
+      const obj = await res.json();
+      setData(obj);
+    };
+    fetchData();
   }, [query]);
 
-  if (!nasaImg) {
+  const onChange = (e) => {
+    setQuery(e.target.value);
+  };
+
+  if (Object.keys(data).length === 0) {
     return <div>Loading...</div>;
   }
 
   return (
     <div className="App">
       <Header />
-      <DatePicker onChange={(date) => setQuery(date).toString()} date={query} />
-      <ImageSection image={nasaImg} title={imgTitle} date={imgDate} />
+      <DatePicker date={query} setDate={onChange} />
+      <ImageSection data={data} />
     </div>
   );
 }

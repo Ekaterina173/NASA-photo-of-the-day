@@ -1,18 +1,31 @@
 import React from "react";
-import "./ImageSection.css";
+import styled from "styled-components";
+
+const StyledContainer = styled.div`
+  padding-top: 10px;
+`;
+
+const StyledP = styled.p`
+  font-size: larger;
+  font-family: Arial, Helvetica, sans-serif;
+  padding-left: 150px;
+  padding-right: 150px;
+`;
 
 const ImageSection = (props) => {
-  const { image, title, date } = props;
-  return (
-    <div className="img-section">
-      <p>
-        {title}
-        <br />
-        Date: {date}
-      </p>
+  const { data } = props;
+  console.log("date din imageSection", data);
 
-      <img src={image} alt="" />
-    </div>
+  return (
+    <StyledContainer>
+      <StyledP>{data.title}</StyledP>
+      <img src={data.url} alt={data.title} />
+      <StyledP>
+        <b>Description:</b>
+        <br />
+        {data.explanation}
+      </StyledP>
+    </StyledContainer>
   );
 };
 
