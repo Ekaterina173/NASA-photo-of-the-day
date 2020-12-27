@@ -3,7 +3,9 @@ import Header from "./components/Header";
 import ImageSection from "./components/ImageSection";
 import DatePicker from "./components/DatePicker";
 import "./App.css";
-
+import moment from "moment";
+import MetaTags from "react-meta-tags";
+/*
 function getCurrentDate() {
   const today = new Date();
   const dd = String(today.getDate()).padStart(2, "0");
@@ -11,11 +13,11 @@ function getCurrentDate() {
   const yyyy = today.getFullYear();
 
   return yyyy + "-" + mm + "-" + dd;
-}
+}*/
 
 function App() {
   const [data, setData] = React.useState({});
-  const [query, setQuery] = React.useState(() => getCurrentDate());
+  const [query, setQuery] = React.useState(moment().format("YYYY-MM-DD"));
 
   React.useEffect(() => {
     const fetchData = async () => {
@@ -38,6 +40,12 @@ function App() {
 
   return (
     <div className="App">
+      <MetaTags>
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1.0"
+        ></meta>
+      </MetaTags>{" "}
       <Header />
       <DatePicker date={query} setDate={onChange} />
       <ImageSection data={data} />

@@ -1,8 +1,13 @@
 import React from "react";
 import styled from "styled-components";
-import { Input, InputGroup } from "reactstrap";
+import { Input } from "reactstrap";
 
 const StyledDatePicker = styled.div`
+  @media only screen and (max-width: 575px) {
+    Input {
+      width: 170px;
+    }
+  }
   background-color: rgb(221, 218, 206);
   padding-top: 20px;
   padding-bottom: 20px;
@@ -10,17 +15,17 @@ const StyledDatePicker = styled.div`
   align-items: center;
   justify-content: center;
 `;
-const StyledH5 = styled.h5`
-  padding-right: 5px;
-`;
 const DatePicker = (props) => {
   const { date, setDate } = props;
   return (
-    <StyledDatePicker>
-      <StyledH5>Pick-up a date for APOD to display: </StyledH5>
-      <InputGroup>
-        <Input type="date" value={date} onChange={setDate} />
-      </InputGroup>
+    <StyledDatePicker className="row">
+      Pick-up a date for APOD to display &nbsp;
+      <Input
+        type="date"
+        className="form-control col-xl-2 col-lg-2 col-md-3 col-sm-3"
+        value={date}
+        onChange={setDate}
+      />
     </StyledDatePicker>
   );
 };
